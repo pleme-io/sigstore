@@ -10,20 +10,15 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, substrate, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs { inherit system; };
-      mkGoLibraryCheck = (import "${substrate}/lib/go-library-check.nix").mkGoLibraryCheck;
-    in {
-      checks.default = mkGoLibraryCheck pkgs {
-        pname = "sigstore";
-        version = "0.0.0-dev";
-        src = self;
-        vendorHash = "sha256-yCoSdz9HKf6rFWdv3Dyui4bHq6av6nrNIXqwpBpxCDA=";
-      };
-
-      devShells.default = pkgs.mkShellNoCC {
-        packages = with pkgs; [ go gopls gotools ];
-      };
-    });
+  outputs = inputs: (import "${inputs.substrate}/lib/repo-flake.nix" {
+    inherit (inputs) nixpkgs flake-utils;
+  }) {
+    self = inputs.self;
+    language = "go";
+    builder = "library";
+    pname = "sigstore";
+    vendorHash = "sha256-yCoSdz9HKf6rFWdv3Dyui4bHq6av6nrNIXqwpBpxCDA=";
+    description = "Sigstore common Go library for signing, verification, and OIDC Fulcio client";
+    homepage = "https://github.com/pleme-io/sigstore";
+  };
 }
