@@ -19,7 +19,7 @@
         pname = "sigstore";
         version = "0.0.0-dev";
         src = self;
-        vendorHash = "sha256-yCoSdz9HKf6rFWdv3Dyui4bHq6av6nrNIXqwpBpxCDA="; # COMPUTING
+        vendorHash = "sha256-yCoSdz9HKf6rFWdv3Dyui4bHq6av6nrNIXqwpBpxCDA=";
       };
 
       devShells.default = pkgs.mkShellNoCC {
